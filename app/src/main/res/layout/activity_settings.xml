@@ -46,30 +46,31 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_marginStart="12dp"
-            android:paddingBottom="21dp"
-            android:paddingTop="21dp"
+
 
             >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:paddingBottom="21dp"
+                android:paddingTop="21dp"
                 android:backgroundTint="@color/white"
                 android:fontFamily="@font/ysregular"
                 android:text="@string/button_switch_theme"
                 android:textColor="@color/YP_Black"
                 android:textSize="16sp"
                 android:layout_gravity="start"
+
             />
+
 
             <Switch
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:layout_gravity="end"
-                android:layout_marginTop="-16dp"
-                android:layout_marginBottom="-16dp"
+                android:layout_gravity="end|center"
+
                 android:textColor="@color/YP_Black"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
         </FrameLayout>
