@@ -1,18 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/YP_Blue"
+    android:orientation="vertical"
+    android:padding="16dp"
 
+    >
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        android:fontFamily="@font/ysmedium"
+        />
+    <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="40dp"
+        android:orientation="vertical"
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        >
+
+
+    <Button
+        android:id="@+id/search_button"
+        android:fontFamily="@font/ysmedium"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:backgroundTint="@color/white"
+        android:layout_weight="1"
+        android:text="@string/title_search"
+        android:textColor="@color/YP_Black"
+        android:textSize="@dimen/main_button"
+        app:cornerRadius="16dp"
+        app:icon="@drawable/search"
+        app:iconGravity="textStart"
+        app:iconTint="@color/YP_Black"
+        app:iconPadding="8dp"
+        android:foreground="?attr/selectableItemBackground"
+
+        />
+        <Button
+            android:id="@+id/playlist"
+            android:fontFamily="@font/ysmedium"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:padding="16dp"
+            android:backgroundTint="@color/white"
+            android:layout_weight="1"
+            android:text="@string/title_playlist"
+            android:textColor="@color/YP_Black"
+            android:textSize="@dimen/main_button"
+            app:cornerRadius="16dp"
+            app:icon="@drawable/playlsit"
+            app:iconGravity="textStart"
+            app:iconTint="@color/YP_Black"
+            app:iconPadding="8dp"
+            android:foreground="?attr/selectableItemBackground"
+            />
+        <Button
+            android:id="@+id/settings"
+            android:fontFamily="@font/ysmedium"
+            android:paddingBottom="28dp"
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:backgroundTint="@color/white"
+            android:layout_weight="1"
+            android:text="@string/title_settings"
+            android:textColor="@color/YP_Black"
+            android:textSize="@dimen/main_button"
+            android:gravity="center"
+            app:cornerRadius="16dp"
+            app:icon="@drawable/settings"
+            app:iconGravity="textStart"
+            app:iconTint="@color/YP_Black"
+            app:iconPadding="8dp"
+            android:foreground="?attr/selectableItemBackground"
+
+            />
+
+
+
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
