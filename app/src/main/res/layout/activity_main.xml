@@ -5,10 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@color/YP_Blue"
+
+
     android:orientation="vertical"
     android:padding="16dp"
-
+    android:theme="@style/Theme.PlaylistMaker"
+    android:background="?attr/colorPrimary"
+    
     >
     <TextView
         android:layout_width="wrap_content"
@@ -29,62 +32,23 @@
 
 
     <Button
+        style="@style/MainActivityButtonStyle"
         android:id="@+id/search_button"
-        android:fontFamily="@font/ysmedium"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:backgroundTint="@color/white"
-        android:layout_weight="1"
         android:text="@string/title_search"
-        android:textColor="@color/YP_Black"
-        android:textSize="@dimen/main_button"
-        app:cornerRadius="16dp"
         app:icon="@drawable/search"
-        app:iconGravity="textStart"
-        app:iconTint="@color/YP_Black"
-        app:iconPadding="8dp"
-        android:foreground="?attr/selectableItemBackground"
-
         />
-        <Button
-            android:id="@+id/playlist"
-            android:fontFamily="@font/ysmedium"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:padding="16dp"
-            android:backgroundTint="@color/white"
-            android:layout_weight="1"
-            android:text="@string/title_playlist"
-            android:textColor="@color/YP_Black"
-            android:textSize="@dimen/main_button"
-            app:cornerRadius="16dp"
-            app:icon="@drawable/playlsit"
-            app:iconGravity="textStart"
-            app:iconTint="@color/YP_Black"
-            app:iconPadding="8dp"
-            android:foreground="?attr/selectableItemBackground"
-            />
-        <Button
-            android:id="@+id/settings"
-            android:fontFamily="@font/ysmedium"
-            android:paddingBottom="28dp"
-            android:padding="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:backgroundTint="@color/white"
-            android:layout_weight="1"
-            android:text="@string/title_settings"
-            android:textColor="@color/YP_Black"
-            android:textSize="@dimen/main_button"
-            android:gravity="center"
-            app:cornerRadius="16dp"
-            app:icon="@drawable/settings"
-            app:iconGravity="textStart"
-            app:iconTint="@color/YP_Black"
-            app:iconPadding="8dp"
-            android:foreground="?attr/selectableItemBackground"
-
-            />
+    <Button
+        style="@style/MainActivityButtonStyle"
+        android:id="@+id/playlist"
+        android:text="@string/title_playlist"
+        app:icon="@drawable/playlsit"
+        />
+    <Button
+        style="@style/MainActivityButtonStyle"
+        android:id="@+id/settings"
+        android:text="@string/title_settings"
+        app:icon="@drawable/settings"
+        />
 
 
 
