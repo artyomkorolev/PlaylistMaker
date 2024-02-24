@@ -63,4 +63,8 @@
         <item name="android:drawablePadding">8dp</item>
         <item name="drawableTint">@color/YP_Gray</item>
     </style>
+
+    <style name="ClearButtonStyle">
+        <item name="android:tint">@color/YP_Gray</item>
+    </style>
 </resources>

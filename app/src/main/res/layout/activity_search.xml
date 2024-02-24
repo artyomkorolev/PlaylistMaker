@@ -45,12 +45,17 @@
             android:background="@null"
             />
         <ImageView
+            style="@style/ClearButtonStyle"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="12dp"
             android:id="@+id/clearIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
-            android:visibility="gone" />
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:src="@drawable/clear_row"
+            android:visibility="gone"
+
+            />
     </LinearLayout>
 
 
