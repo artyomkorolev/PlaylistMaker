@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical"
+    android:padding="4dp"
+    android:theme="@style/Theme.PlaylistMaker"
+    android:background="?attr/colorSecondary">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp">
+        <Button
+            android:id="@+id/back_button"
+            style="@style/BackButtonStyle"
+            />
+
+        <TextView
+            style="@style/TextWithBackButtonStyle"
+            android:text="@string/title_settings"
+            />
+    </LinearLayout>
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/ysregular"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="20dp"
+        android:text="@string/button_switch_theme"
+        android:textColor="?attr/colorOnPrimary"
+        android:textSize="16sp"
+        android:thumbTintMode="screen"/>
+
+        <Button
+            android:id="@+id/share_app"
+            style="@style/SettingsActivityButtonStyle"
+            android:text="@string/button_share_app"
+            app:icon="@drawable/share"
+
+
+            />
+        <Button
+            android:id="@+id/write_to_support"
+            style="@style/SettingsActivityButtonStyle"
+            android:text="@string/button_support"
+            app:icon="@drawable/support"
+
+            />
+        <Button
+            android:id="@+id/user_agre"
+            style="@style/SettingsActivityButtonStyle"
+            android:text="@string/button_user_agre"
+            app:icon="@drawable/arrow_forward"
+            />
+
+
+
+</LinearLayout>
