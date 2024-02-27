@@ -5,14 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="4dp"
+
     android:theme="@style/Theme.PlaylistMaker"
     android:background="?attr/colorSecondary"
     >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp">
+        android:layout_marginBottom="24dp"
+        android:padding="4dp">
         <Button
             android:id="@+id/back_button"
             style="@style/BackButtonStyle"
@@ -26,8 +27,9 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/shape"
         android:orientation="horizontal"
         >
@@ -36,14 +38,14 @@
         <EditText
             android:id="@+id/imputEditText"
             style="@style/SearchEditText"
+            android:layout_weight="1"
+            android:background="@null"
             android:drawableLeft="@drawable/search_icon"
             android:hint="@string/title_search"
-            android:layout_weight="1"
             android:inputType="text"
-            android:textColor="@color/YP_Black"
             android:maxLines="1"
-            android:background="@null"
-            />
+            android:textColor="@color/YP_Black"
+            tools:ignore="TouchTargetSizeCheck" />
         <ImageView
             style="@style/ClearButtonStyle"
             android:layout_marginStart="10dp"
@@ -56,8 +58,16 @@
             android:visibility="gone"
 
             />
-    </LinearLayout>
 
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTrack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="vertical"
+        tools:listitem="@layout/track_item"
+        />
 
 
 </LinearLayout>

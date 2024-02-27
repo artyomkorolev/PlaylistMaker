@@ -6,5 +6,6 @@
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorPrimaryDark">@color/YP_Black</item>
         <item name="colorControlActivated">@color/YP_Blue</item>
+        <item name="colorOnSecondary">@color/white</item>
     </style>
 </resources>

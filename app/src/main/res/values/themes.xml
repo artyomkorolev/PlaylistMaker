@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/YP_Blue</item>
         <item name="colorControlActivated">@color/YP_Blue</item>
         <item name="colorSwitchThumbNormal">@color/YP_Gray</item>
+        <item name="colorOnSecondary">@color/YP_Gray</item>
 
 
         <item name="android:colorForeground">@color/YP_Light_Gray</item>
