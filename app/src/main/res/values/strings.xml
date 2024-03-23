@@ -13,5 +13,7 @@
     <string name="email_yandex">zloy.korolev@yandex.ru</string>
     <string name="url_practicum_offer">https://yandex.ru/legal/practicum_offer/</string>
     <string name="no_reply">No reply</string>
+    <string name="nothing_found"> Ничего не нашлось </string>
+    <string name="something_went_wrong" >Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
 
 </resources>

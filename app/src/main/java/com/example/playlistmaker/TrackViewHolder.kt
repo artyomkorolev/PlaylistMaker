@@ -2,13 +2,15 @@ package com.example.playlistmaker
 
 import android.content.Context
 import android.util.TypedValue
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.view.menu.MenuView.ItemView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import kotlinx.coroutines.NonDisposableHandle.parent
 
 class TrackViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     private val ivCover: ImageView = itemView.findViewById(R.id.ivCover)
@@ -19,7 +21,7 @@ class TrackViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     fun bind(item: Track){
         tvTitle.text = item.trackName
         tvAuthor.text= item.artistName
-        tvTime.text = item.trackTime
+        tvTime.text = item.formattedDuration()
         Glide.with(itemView)
             .load(item.artworkUrl100)
             .centerCrop()
@@ -35,3 +37,4 @@ class TrackViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
             context.resources.displayMetrics).toInt()
     }
 }
+
