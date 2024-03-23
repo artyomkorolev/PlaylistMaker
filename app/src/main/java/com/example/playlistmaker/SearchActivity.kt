@@ -80,6 +80,8 @@ class SearchActivity : AppCompatActivity() {
         clearButton.setOnClickListener {
             tracks.clear()
             adapter.notifyDataSetChanged()
+            refreshButton.visibility =View.GONE
+            placeholder.visibility = View.GONE
             inputEditText.setText("")
             val inputMethodManager =
                 getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager
@@ -95,6 +97,8 @@ class SearchActivity : AppCompatActivity() {
                         if (response.code() == 200) {
                             tracks.clear()
                             if (response.body()?.results?.isNotEmpty() == true) {
+                                refreshButton.visibility =View.GONE
+                                placeholder.visibility = View.GONE
                                 tracks.addAll(response.body()?.results!!)
                                 adapter.notifyDataSetChanged()
                             }
@@ -147,11 +151,13 @@ class SearchActivity : AppCompatActivity() {
                             if (response.code() == 200) {
                                 tracks.clear()
                                 if (response.body()?.results?.isNotEmpty() == true) {
+                                    refreshButton.visibility =View.GONE
+                                    placeholder.visibility = View.GONE
                                     tracks.addAll(response.body()?.results!!)
                                     adapter.notifyDataSetChanged()
                                 }
                                 if (tracks.isEmpty()) {
-
+                                    refreshButton.visibility =View.GONE
                                     showMessage(getString(R.string.nothing_found), ContextCompat.getDrawable(this@SearchActivity, R.drawable.placeholder_no_results) ?: return)
 
 
