@@ -12,5 +12,6 @@
     <string name="messege_to_devs">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
     <string name="email_yandex">zloy.korolev@yandex.ru</string>
     <string name="url_practicum_offer">https://yandex.ru/legal/practicum_offer/</string>
+    <string name="no_reply">No reply</string>
 
 </resources>

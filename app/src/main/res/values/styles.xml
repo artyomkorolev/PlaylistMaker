@@ -67,4 +67,9 @@
     <style name="ClearButtonStyle">
         <item name="android:tint">@color/YP_Gray</item>
     </style>
+
+    <style name="TrackItem">
+        <item name="android:textColor">@color/YP_Black</item>
+
+    </style>
 </resources>
