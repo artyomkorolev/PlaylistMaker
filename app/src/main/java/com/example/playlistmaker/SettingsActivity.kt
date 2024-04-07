@@ -1,19 +1,24 @@
 package com.example.playlistmaker
 
 
+import android.app.UiModeManager
+import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
 import android.widget.Button
-
+import androidx.appcompat.app.AppCompatDelegate
+import com.google.android.material.switchmaterial.SwitchMaterial
 
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+
         val backButton = findViewById<Button>(R.id.back_button)
         backButton.setOnClickListener{
             val backIntent = Intent(this, MainActivity::class.java)
@@ -28,6 +33,7 @@ class SettingsActivity : AppCompatActivity() {
             shareIntent.putExtra(Intent.EXTRA_TEXT,shareMessage)
             startActivity(shareIntent)
         }
+
         val supportButton = findViewById<Button>(R.id.write_to_support)
         supportButton.setOnClickListener {
             val supportIntent = Intent(Intent.ACTION_SENDTO)
@@ -43,10 +49,20 @@ class SettingsActivity : AppCompatActivity() {
         userAgreButton.setOnClickListener {
             val argeIntent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_practicum_offer)))
             startActivity(argeIntent)
-
         }
 
+        val themeSwitcher = findViewById<SwitchMaterial>(R.id.themeSwitcher)
+        val app = application as App
 
+
+        themeSwitcher.isChecked = app.darkTheme
+
+        val sharedPrefs = getSharedPreferences(app.MY_PREFERENCES, MODE_PRIVATE)
+
+        themeSwitcher.setOnCheckedChangeListener { switcher, checked ->
+            (applicationContext as App).switchTheme(checked)
+            sharedPrefs.edit().putBoolean(app.EDIT_THEME_KEY,checked).apply()
+        }
 
 
 
