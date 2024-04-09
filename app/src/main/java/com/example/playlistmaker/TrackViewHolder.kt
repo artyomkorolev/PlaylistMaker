@@ -18,16 +18,22 @@ class TrackViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     private val tvAuthor: TextView = itemView.findViewById(R.id.tvAuthor)
     private val tvTime: TextView = itemView.findViewById(R.id.tvTime)
 
+
+
     fun bind(item: Track){
+        val trackid = item.trackId
         tvTitle.text = item.trackName
         tvAuthor.text= item.artistName
         tvTime.text = item.formattedDuration()
+
         Glide.with(itemView)
             .load(item.artworkUrl100)
             .centerCrop()
             .transform(RoundedCorners(dpToPx(2f,itemView.context)))
             .placeholder((R.drawable.placeholder))
             .into(ivCover)
+
+
 
     }
     fun dpToPx(dp: Float, context: Context): Int {
@@ -36,5 +42,9 @@ class TrackViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
             dp,
             context.resources.displayMetrics).toInt()
     }
+
+
 }
+
+
 

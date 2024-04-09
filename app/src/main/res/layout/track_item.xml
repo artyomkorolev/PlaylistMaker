@@ -6,7 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:theme="@style/Theme.PlaylistMaker"
-    android:background="?attr/colorSecondary">
+    android:background="?attr/colorSecondary"
+    android:id="@+id/itemTrack">
 
     <ImageView
         android:id="@+id/ivCover"
