@@ -55,6 +55,9 @@ class SearchActivity : AppCompatActivity() {
         object : TrackAdapter.TrackActionListener {
         override fun onClickItem(track: Track) {
            searchHistory.write(sharedPrefs,track)
+            val playerIntent = Intent(this@SearchActivity,PlayerActivity::class.java)
+            playerIntent.putExtra("track",track)
+            startActivity(playerIntent)
         }
     })
 
@@ -95,6 +98,10 @@ class SearchActivity : AppCompatActivity() {
                     if (!searchHistory.read(sharedPrefs).isEmpty()){
                         tracksOnHistory = searchHistory.read(sharedPrefs) as ArrayList<Track>
                         adapterHistory.submitList(tracksOnHistory)}
+                    val playerIntent = Intent(this@SearchActivity,PlayerActivity::class.java)
+                    playerIntent.putExtra("track",track)
+                    startActivity(playerIntent)
+
                 }
             })
 

@@ -14,7 +14,13 @@
     <string name="url_practicum_offer">https://yandex.ru/legal/practicum_offer/</string>
     <string name="no_reply">No reply</string>
     <string name="nothing_found"> Ничего не нашлось </string>
-    <string name="something_went_wrong" >Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
+    <string name="something_went_wrong">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
     <string name="you_was_searched">Вы Искали</string>
     <string name="clear_history">Очистить историю</string>
+    <string name="timecode">0:30</string>
+    <string name="Time">Длительность</string>
+    <string name="Albome">Альбом</string>
+    <string name="Year">Год</string>
+    <string name="genre">Жанр</string>
+    <string name="country">Страна</string>
 </resources>

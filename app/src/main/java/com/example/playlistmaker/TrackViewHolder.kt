@@ -21,6 +21,10 @@ class TrackViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
 
     fun bind(item: Track){
+        val releaseDate = item.releaseDate
+        val primaryGenreName = item.primaryGenreName
+        val country = item.country
+        val collectionName = item.collectionName
         val trackid = item.trackId
         tvTitle.text = item.trackName
         tvAuthor.text= item.artistName

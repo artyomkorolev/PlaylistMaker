@@ -10,8 +10,9 @@ import androidx.appcompat.app.AppCompatDelegate
 class App: Application() {
     val MY_PREFERENCES = "MyPrefs"
     var darkTheme = false
+
     val  EDIT_THEME_KEY ="key_for_edit_theme"
-    lateinit var sharedPrefs :SharedPreferences
+     private lateinit var sharedPrefs :SharedPreferences
 
     override fun onCreate() {
         super.onCreate()
