@@ -6,6 +6,8 @@ import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
 import android.media.Image
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -16,6 +18,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.Placeholder
@@ -50,15 +53,18 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var imagePlaceholder: ImageView
     private lateinit var  rvTrackSearch: RecyclerView
     private lateinit var trackList: RecyclerView
+    private lateinit var progressBar: ProgressBar
+    private var lastFailedSearchQuery: String? = null
     private val tracks = ArrayList<Track>()
     private val adapter = TrackAdapter(tracks,
         object : TrackAdapter.TrackActionListener {
         override fun onClickItem(track: Track) {
-           searchHistory.write(sharedPrefs,track)
+            if (clickDebounce()) {
+            searchHistory.write(sharedPrefs,track)
             val playerIntent = Intent(this@SearchActivity,PlayerActivity::class.java)
             playerIntent.putExtra("track",track)
             startActivity(playerIntent)
-        }
+        }}
     })
 
     private var tracksOnHistory = ArrayList<Track>()
@@ -67,6 +73,16 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var sharedPrefs: SharedPreferences
     private lateinit var  searchHistory:SearchHistory
 
+    private var isClickAllowed = true
+
+    private val handler = Handler(Looper.getMainLooper())
+
+    private val searchRunnable = Runnable { searchText?.let { searchRequest(it) } }
+
+    private fun searchDebounce() {
+        handler.removeCallbacks(searchRunnable)
+        handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -84,6 +100,7 @@ class SearchActivity : AppCompatActivity() {
         refreshButton = findViewById(R.id.refreshButton)
         historylist = findViewById(R.id.llhistory)
         toClearHistory = findViewById(R.id.bttntoClearHistory)
+        progressBar = findViewById(R.id.progressBar)
         trackList.adapter = adapter
         trackList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
@@ -94,6 +111,7 @@ class SearchActivity : AppCompatActivity() {
         adapterHistory =TrackAdapter(tracksOnHistory,
             object : TrackAdapter.TrackActionListener {
                 override fun onClickItem(track: Track) {
+                    if (clickDebounce()) {
                     searchHistory.write(sharedPrefs,track)
                     if (!searchHistory.read(sharedPrefs).isEmpty()){
                         tracksOnHistory = searchHistory.read(sharedPrefs) as ArrayList<Track>
@@ -102,7 +120,7 @@ class SearchActivity : AppCompatActivity() {
                     playerIntent.putExtra("track",track)
                     startActivity(playerIntent)
 
-                }
+                }}
             })
 
 
@@ -110,7 +128,7 @@ class SearchActivity : AppCompatActivity() {
 
 
 
-        var lastFailedSearchQuery: String? = null
+
 
         backButton.setOnClickListener {
             val backIntent = Intent(this, MainActivity::class.java)
@@ -170,6 +188,8 @@ class SearchActivity : AppCompatActivity() {
                 tracksOnHistory = searchHistory.read(sharedPrefs) as ArrayList<Track>
                 adapterHistory.submitList(tracksOnHistory)}
                 clearButton.visibility = clearButtonVisibility(s)
+                searchDebounce()
+                trackList.visibility = if(progressBar.visibility==View.VISIBLE) View.GONE else View.VISIBLE
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -184,45 +204,45 @@ class SearchActivity : AppCompatActivity() {
             inputEditText.setText(searchText)
         }
 
-        inputEditText.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                if (inputEditText.text.isNotEmpty()) {
-                    val searchText = inputEditText.text.toString()
-                    val call = iTunesSearchService.search(searchText)
-                    call.enqueue(object : Callback<TrackResponse> {
-                        override fun onResponse(
-                            call: Call<TrackResponse>,
-                            response: Response<TrackResponse>
-                        ) {
-                            if (response.code() == 200) {
-                                tracks.clear()
-                                if (response.body()?.results?.isNotEmpty() == true) {
-                                    refreshButton.visibility =View.GONE
-                                    placeholder.visibility = View.GONE
-                                    tracks.addAll(response.body()?.results!!)
-                                    adapter.notifyDataSetChanged()
-                                }
-                                if (tracks.isEmpty()) {
-                                    refreshButton.visibility =View.GONE
-                                    showMessage(getString(R.string.nothing_found), ContextCompat.getDrawable(this@SearchActivity, R.drawable.placeholder_no_results) ?: return)
-
-
-                                }
-                            }
-                        }
-
-                        override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
-                            lastFailedSearchQuery = searchText
-                            showMessage(getString(R.string.something_went_wrong),  ContextCompat.getDrawable(this@SearchActivity, R.drawable.placeholder_no_internet) ?: return)
-                            refreshButton.visibility=View.VISIBLE
-                        }
-                    })
-                }
-
-                true
-            }
-            false
-        }
+//        inputEditText.setOnEditorActionListener { _, actionId, _ ->
+//            if (actionId == EditorInfo.IME_ACTION_DONE) {
+//                if (inputEditText.text.isNotEmpty()) {
+//                    val searchText = inputEditText.text.toString()
+//                    val call = iTunesSearchService.search(searchText)
+//                    call.enqueue(object : Callback<TrackResponse> {
+//                        override fun onResponse(
+//                            call: Call<TrackResponse>,
+//                            response: Response<TrackResponse>
+//                        ) {
+//                            if (response.code() == 200) {
+//                                tracks.clear()
+//                                if (response.body()?.results?.isNotEmpty() == true) {
+//                                    refreshButton.visibility =View.GONE
+//                                    placeholder.visibility = View.GONE
+//                                    tracks.addAll(response.body()?.results!!)
+//                                    adapter.notifyDataSetChanged()
+//                                }
+//                                if (tracks.isEmpty()) {
+//                                    refreshButton.visibility =View.GONE
+//                                    showMessage(getString(R.string.nothing_found), ContextCompat.getDrawable(this@SearchActivity, R.drawable.placeholder_no_results) ?: return)
+//
+//
+//                                }
+//                            }
+//                        }
+//
+//                        override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
+//                            lastFailedSearchQuery = searchText
+//                            showMessage(getString(R.string.something_went_wrong),  ContextCompat.getDrawable(this@SearchActivity, R.drawable.placeholder_no_internet) ?: return)
+//                            refreshButton.visibility=View.VISIBLE
+//                        }
+//                    })
+//                }
+//
+//                true
+//            }
+//            false
+//        }
 
 
 
@@ -302,5 +322,57 @@ class SearchActivity : AppCompatActivity() {
 
 companion object{
     const val MY_PREFERENCES= "MyPreferences"
+    private const val CLICK_DEBOUNCE_DELAY = 1000L
+    private const val SEARCH_DEBOUNCE_DELAY = 2000L
 }
+    private fun clickDebounce() : Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+        }
+        return current
+    }
+
+    private fun searchRequest(searchText:String){
+
+        if(searchText.isNotEmpty()){
+        progressBar.visibility=View.VISIBLE
+        trackList.visibility = View.GONE
+        placeholder.visibility = View.GONE
+        val call = iTunesSearchService.search(searchText)
+        call.enqueue(object : Callback<TrackResponse> {
+            override fun onResponse(
+                call: Call<TrackResponse>,
+                response: Response<TrackResponse>
+            ) {
+                if (response.code() == 200) {
+                    tracks.clear()
+                    if (response.body()?.results?.isNotEmpty() == true) {
+                        refreshButton.visibility =View.GONE
+                        placeholder.visibility = View.GONE
+                        trackList.visibility=View.VISIBLE
+                        progressBar.visibility=View.GONE
+                        tracks.addAll(response.body()?.results!!)
+                        adapter.notifyDataSetChanged()
+                    }
+                    if (tracks.isEmpty()) {
+                        progressBar.visibility=View.GONE
+                        refreshButton.visibility =View.GONE
+                        showMessage(getString(R.string.nothing_found), ContextCompat.getDrawable(this@SearchActivity, R.drawable.placeholder_no_results) ?: return)
+
+
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
+                progressBar.visibility=View.GONE
+                lastFailedSearchQuery = searchText
+                showMessage(getString(R.string.something_went_wrong),  ContextCompat.getDrawable(this@SearchActivity, R.drawable.placeholder_no_internet) ?: return)
+                refreshButton.visibility=View.VISIBLE
+
+            }
+        })
+    }}
 }
