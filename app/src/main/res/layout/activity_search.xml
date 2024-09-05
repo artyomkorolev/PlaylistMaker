@@ -62,6 +62,15 @@
             />
 
     </LinearLayout>
+    <ProgressBar android:id="@+id/progressBar"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_gravity="center"
+        android:indeterminateTint="#3772E7"
+        android:layout_marginTop="148dp"
+        android:visibility="gone"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTrack"
         android:layout_width="match_parent"
@@ -69,6 +78,7 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:orientation="vertical"
         tools:listitem="@layout/track_item"
+
 
         />
     <LinearLayout

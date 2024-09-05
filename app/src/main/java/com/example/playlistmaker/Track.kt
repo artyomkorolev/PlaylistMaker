@@ -13,7 +13,8 @@ data class Track(
      val collectionName : String?,
      val releaseDate : String?,
      val primaryGenreName: String?,
-     val country: String?
+     val country: String?,
+     val previewUrl: String?
 ): Serializable {
      fun formattedDuration(): String {
          val formatter = SimpleDateFormat("mm:ss", Locale.getDefault())
