@@ -1,17 +1,12 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.ui.search
 
-import android.app.Application
-import android.content.Context
-import android.content.SharedPreferences
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
-import kotlinx.coroutines.NonDisposableHandle.parent
+import com.example.playlistmaker.R
+import com.example.playlistmaker.domain.models.Track
 
-class TrackAdapter(private var tracks: List<Track>,private val trackActionListener: TrackActionListener): RecyclerView.Adapter<TrackViewHolder>() {
+class TrackAdapter(private var tracks: List<Track>, private val trackActionListener: TrackActionListener): RecyclerView.Adapter<TrackViewHolder>() {
 
 
 

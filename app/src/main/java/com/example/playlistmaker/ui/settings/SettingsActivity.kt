@@ -1,16 +1,15 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.ui.settings
 
 
-import android.app.UiModeManager
-import android.content.Context
 import android.content.Intent
-import android.content.res.Configuration
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
 import android.widget.Button
-import androidx.appcompat.app.AppCompatDelegate
+import com.example.playlistmaker.App
+import com.example.playlistmaker.R
+import com.example.playlistmaker.ui.main.MainActivity
 import com.google.android.material.switchmaterial.SwitchMaterial
 
 

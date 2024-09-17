@@ -1,10 +1,9 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.ui.search
 
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.drawable.Drawable
-import android.media.Image
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -12,7 +11,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.WindowManager
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -21,12 +19,17 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.Placeholder
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.playlistmaker.ui.main.MainActivity
+import com.example.playlistmaker.ui.player.PlayerActivity
+import com.example.playlistmaker.R
+import com.example.playlistmaker.data.SearchHistory
+import com.example.playlistmaker.data.dto.TrackResponse
+import com.example.playlistmaker.data.network.iTunesSearchApiDepricated
+import com.example.playlistmaker.domain.models.Track
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,7 +43,7 @@ class SearchActivity : AppCompatActivity() {
         .baseUrl(iTunesSearchBaseUrl)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-    private val iTunesSearchService = retrofit.create(iTunesSearchApi::class.java)
+    private val iTunesSearchService = retrofit.create(iTunesSearchApiDepricated::class.java)
     private lateinit var clearButton: ImageView
     private lateinit var historylist: LinearLayout
     private lateinit var backButton: Button
@@ -61,7 +64,7 @@ class SearchActivity : AppCompatActivity() {
         override fun onClickItem(track: Track) {
             if (clickDebounce()) {
             searchHistory.write(sharedPrefs,track)
-            val playerIntent = Intent(this@SearchActivity,PlayerActivity::class.java)
+            val playerIntent = Intent(this@SearchActivity, PlayerActivity::class.java)
             playerIntent.putExtra("track",track)
             startActivity(playerIntent)
         }}
@@ -71,7 +74,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var  adapterHistory : TrackAdapter
 
     private lateinit var sharedPrefs: SharedPreferences
-    private lateinit var  searchHistory:SearchHistory
+    private lateinit var  searchHistory: SearchHistory
 
     private var isClickAllowed = true
 
@@ -87,7 +90,7 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         sharedPrefs = getSharedPreferences(MY_PREFERENCES,Context.MODE_PRIVATE)
-        searchHistory =SearchHistory(sharedPrefs)
+        searchHistory = SearchHistory(sharedPrefs)
         setContentView(R.layout.activity_search)
         rvTrackSearch=findViewById(R.id.rvTrackSearch)
         placeholder = findViewById(R.id.llPlaceholderMessage)
@@ -108,7 +111,7 @@ class SearchActivity : AppCompatActivity() {
 
 
 
-        adapterHistory =TrackAdapter(tracksOnHistory,
+        adapterHistory = TrackAdapter(tracksOnHistory,
             object : TrackAdapter.TrackActionListener {
                 override fun onClickItem(track: Track) {
                     if (clickDebounce()) {
@@ -116,7 +119,7 @@ class SearchActivity : AppCompatActivity() {
                     if (!searchHistory.read(sharedPrefs).isEmpty()){
                         tracksOnHistory = searchHistory.read(sharedPrefs) as ArrayList<Track>
                         adapterHistory.submitList(tracksOnHistory)}
-                    val playerIntent = Intent(this@SearchActivity,PlayerActivity::class.java)
+                    val playerIntent = Intent(this@SearchActivity, PlayerActivity::class.java)
                     playerIntent.putExtra("track",track)
                     startActivity(playerIntent)
 
@@ -163,14 +166,18 @@ class SearchActivity : AppCompatActivity() {
                                 adapter.notifyDataSetChanged()
                             }
                             if (tracks.isEmpty()) {
-                                showMessage(getString(R.string.nothing_found), ContextCompat.getDrawable(this@SearchActivity, R.drawable.placeholder_no_results) ?: return)
+                                showMessage(getString(R.string.nothing_found), ContextCompat.getDrawable(this@SearchActivity,
+                                    R.drawable.placeholder_no_results
+                                ) ?: return)
                                 refreshButton.visibility =View.GONE
                             }
                         }
                     }
 
                     override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
-                        showMessage(getString(R.string.something_went_wrong), ContextCompat.getDrawable(this@SearchActivity, R.drawable.placeholder_no_internet) ?: return)
+                        showMessage(getString(R.string.something_went_wrong), ContextCompat.getDrawable(this@SearchActivity,
+                            R.drawable.placeholder_no_internet
+                        ) ?: return)
                     }
                 })
             }
@@ -359,7 +366,9 @@ companion object{
                     if (tracks.isEmpty()) {
                         progressBar.visibility=View.GONE
                         refreshButton.visibility =View.GONE
-                        showMessage(getString(R.string.nothing_found), ContextCompat.getDrawable(this@SearchActivity, R.drawable.placeholder_no_results) ?: return)
+                        showMessage(getString(R.string.nothing_found), ContextCompat.getDrawable(this@SearchActivity,
+                            R.drawable.placeholder_no_results
+                        ) ?: return)
 
 
                     }
@@ -369,7 +378,9 @@ companion object{
             override fun onFailure(call: Call<TrackResponse>, t: Throwable) {
                 progressBar.visibility=View.GONE
                 lastFailedSearchQuery = searchText
-                showMessage(getString(R.string.something_went_wrong),  ContextCompat.getDrawable(this@SearchActivity, R.drawable.placeholder_no_internet) ?: return)
+                showMessage(getString(R.string.something_went_wrong),  ContextCompat.getDrawable(this@SearchActivity,
+                    R.drawable.placeholder_no_internet
+                ) ?: return)
                 refreshButton.visibility=View.VISIBLE
 
             }
