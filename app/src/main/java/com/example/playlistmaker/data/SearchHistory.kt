@@ -5,7 +5,7 @@ import com.example.playlistmaker.domain.models.Track
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class SearchHistory {
+open class SearchHistory {
 
 
     fun read(sharedPreferences: SharedPreferences): List<Track> {

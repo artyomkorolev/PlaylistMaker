@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.R
 import com.example.playlistmaker.data.SearchHistory
 import com.example.playlistmaker.data.SearchHistoryRepositoryImpl
+import com.example.playlistmaker.domain.api.HistoryInteractor
 import com.example.playlistmaker.domain.api.TrackInteractor
 import com.example.playlistmaker.domain.models.Track
 import com.example.playlistmaker.ui.main.MainActivity
@@ -52,11 +53,14 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var progressBar: ProgressBar
     private var lastFailedSearchQuery: String? = null
     private val tracks = ArrayList<Track>()
+    private lateinit var historyInteractor: HistoryInteractor
+    private lateinit var trackInteractor: TrackInteractor
     private val adapter = TrackAdapter(tracks,
         object : TrackAdapter.TrackActionListener {
         override fun onClickItem(track: Track) {
             if (clickDebounce()) {
-              searchHistoryRepositoryImpl.saveTrackToHistory(track)
+                historyInteractor.addtoHistory(track)
+            //searchHistoryRepositoryImpl.saveTrackToHistory(track)
             //searchHistory.write(sharedPrefs,track)
             val playerIntent = Intent(this@SearchActivity, PlayerActivity::class.java)
             playerIntent.putExtra("track",track)
@@ -69,7 +73,8 @@ class SearchActivity : AppCompatActivity() {
 
 
 
-    private lateinit var searchHistoryRepositoryImpl: SearchHistoryRepositoryImpl
+
+
 
 
 
@@ -85,8 +90,9 @@ class SearchActivity : AppCompatActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        searchHistoryRepositoryImpl = SearchHistoryRepositoryImpl(SearchHistory(),this)
-
+        //searchHistoryRepositoryImpl = SearchHistoryRepositoryImpl(SearchHistory(),this)
+        historyInteractor = Creator.provideHistoryInteractor(this)
+        trackInteractor = Creator.provideTrackInteractor(this)
         setContentView(R.layout.activity_search)
         rvTrackSearch=findViewById(R.id.rvTrackSearch)
         placeholder = findViewById(R.id.llPlaceholderMessage)
@@ -111,9 +117,11 @@ class SearchActivity : AppCompatActivity() {
             object : TrackAdapter.TrackActionListener {
                 override fun onClickItem(track: Track) {
                     if (clickDebounce()) {
-                        searchHistoryRepositoryImpl.saveTrackToHistory(track)
-                        if (!searchHistoryRepositoryImpl.getSearchHistory().isEmpty()){
-                            tracksOnHistory = searchHistoryRepositoryImpl.getSearchHistory() as ArrayList<Track>
+                        //searchHistoryRepositoryImpl.saveTrackToHistory(track)
+                        historyInteractor.addtoHistory(track)
+                        if (!historyInteractor.showHistory().isEmpty()
+                            ){
+                            tracksOnHistory = historyInteractor.showHistory().isEmpty() as ArrayList<Track>
                             adapterHistory.submitList(tracksOnHistory)
                         }
 
@@ -162,10 +170,10 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                historylist.visibility = if (inputEditText.hasFocus() && s?.isEmpty() == true && !searchHistoryRepositoryImpl.getSearchHistory().isEmpty()) View.VISIBLE else View.GONE
-                trackList.visibility = if (inputEditText.hasFocus() && s?.isEmpty() == true && !searchHistoryRepositoryImpl.getSearchHistory().isEmpty()) View.GONE else View.VISIBLE
-                if ( !searchHistoryRepositoryImpl.getSearchHistory().isEmpty()){
-                tracksOnHistory = searchHistoryRepositoryImpl.getSearchHistory() as ArrayList<Track>
+                historylist.visibility = if (inputEditText.hasFocus() && s?.isEmpty() == true && !historyInteractor.showHistory().isEmpty()) View.VISIBLE else View.GONE
+                trackList.visibility = if (inputEditText.hasFocus() && s?.isEmpty() == true && !historyInteractor.showHistory().isEmpty()) View.GONE else View.VISIBLE
+                if ( !historyInteractor.showHistory().isEmpty()){
+                tracksOnHistory = historyInteractor.showHistory() as ArrayList<Track>
                 adapterHistory.submitList(tracksOnHistory)}
                 clearButton.visibility = clearButtonVisibility(s)
                 searchDebounce()
@@ -189,7 +197,7 @@ class SearchActivity : AppCompatActivity() {
 
 
     inputEditText.setOnFocusChangeListener{view, hasFocus ->
-        historylist.visibility = if (hasFocus && inputEditText.text.isEmpty() &&!searchHistoryRepositoryImpl.getSearchHistory().isEmpty())
+        historylist.visibility = if (hasFocus && inputEditText.text.isEmpty() &&!historyInteractor.showHistory().isEmpty())
             View.VISIBLE
         else View.GONE
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
@@ -197,14 +205,14 @@ class SearchActivity : AppCompatActivity() {
     }
 
 
-    if (!searchHistoryRepositoryImpl.getSearchHistory().isEmpty()){
-        tracksOnHistory = searchHistoryRepositoryImpl.getSearchHistory() as ArrayList<Track>
+    if (!historyInteractor.showHistory().isEmpty()){
+        tracksOnHistory = historyInteractor.showHistory() as ArrayList<Track>
         historylist.visibility =View.VISIBLE
         adapterHistory.submitList(tracksOnHistory)
     }
 
     toClearHistory.setOnClickListener {
-        searchHistoryRepositoryImpl.clearSearchHistory()
+        historyInteractor.clearHistory()
         //sharedPrefs.edit().clear().apply()
         tracksOnHistory.clear()
         adapterHistory.submitList(tracksOnHistory)
@@ -219,7 +227,7 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        searchHistoryRepositoryImpl.onStopActivity(tracksOnHistory)
+        historyInteractor.onStopActivityHistory(tracksOnHistory)
 
     }
 
@@ -269,7 +277,7 @@ companion object{
         return current
     }
 
-    private val trackInteractor = Creator.provideTrackInteractor(this)
+
     private fun searchRequest(searchText:String){
 
         if(searchText.isNotEmpty()){

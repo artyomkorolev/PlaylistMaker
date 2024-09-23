@@ -9,21 +9,21 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 class SearchHistoryRepositoryImpl(
-    private val searchHistory: SearchHistory,
     private val context: Context
-):SearchHistoryRepository {
+):SearchHistoryRepository,SearchHistory() {
+
     private val sharedPreferences = context.getSharedPreferences(MY_PREFERENCES, Context.MODE_PRIVATE)
 
     override fun getSearchHistory(): List<Track> {
-            return searchHistory.read(sharedPreferences)
+            return SearchHistory().read(sharedPreferences)
     }
 
     override fun saveTrackToHistory(track: Track) {
-            searchHistory.write(sharedPreferences,track)
+        SearchHistory().write(sharedPreferences,track)
     }
 
     override fun clearSearchHistory() {
-        searchHistory.clearHistory(sharedPreferences)
+        SearchHistory().clearHistory(sharedPreferences)
     }
 
     override fun onStopActivity(tracksOnHistory:List<Track>) {
