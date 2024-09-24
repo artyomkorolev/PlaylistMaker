@@ -1,4 +1,4 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.ui.player
 
 import android.content.Context
 import android.content.Intent
@@ -9,14 +9,15 @@ import android.os.Handler
 import android.os.Looper
 import android.util.TypedValue
 import android.view.View
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.google.android.material.internal.ViewUtils.dpToPx
+import com.example.playlistmaker.R
+import com.example.playlistmaker.domain.models.Track
+import com.example.playlistmaker.ui.search.SearchActivity
 
 class PlayerActivity : AppCompatActivity() {
     private lateinit var backButton: ImageButton
