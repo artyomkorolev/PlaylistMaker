@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:padding="4dp">
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/back_button"
             style="@style/BackButtonStyle"
             />
@@ -109,7 +109,7 @@
             android:layout_marginTop="16dp"
             android:textColor="?attr/colorOnPrimary"
             />
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/refreshButton"
             style="@style/UpdateInSearchButton"
             android:layout_width="wrap_content"
@@ -152,7 +152,7 @@
 
 
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/bttntoClearHistory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
